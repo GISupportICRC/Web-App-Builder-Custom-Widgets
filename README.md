@@ -1,7 +1,7 @@
 # :hospital: ICRC Web App Builder Custom Widgets
 
 Web App builder Custom Widget List
-- [Filter Widget](https://github.com/GISupportICRC/Web-App-Builder-Custom-Widgets#filter-widget-octocat)
+- [ICRCFilterHealthActivities Widget](https://github.com/GISupportICRC/Web-App-Builder-Custom-Widgets#filter-widget-octocat)
 
 
 ![.](https://icrc.maps.arcgis.com/sharing/rest/content/items/2cc6d61911724a3c835427436540bb32/data)
@@ -12,7 +12,7 @@ Web App builder Custom Widget List
 - [Yeoman](https://github.com/Esri/generator-esri-appbuilder-js) 
 
 
-## Filter Widget :octocat:
+## ICRCFilterHealthActivities Widget :octocat:
 
 Filtering Feature Layer using [Dojo MultiSelect](https://dojotoolkit.org/reference-guide/1.10/dojox/form/CheckedMultiSelect.html)
 
