@@ -34,7 +34,7 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, Select, Button,
     _version: null,
     latestYear: [],
     countryExtent: [],
-    thatWorldLayer: this,
+    thatWorldLayer: null,
 
     startup: function() {
       this.inherited(arguments);
