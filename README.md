@@ -1,7 +1,7 @@
 # :hospital: ICRC Web App Builder Custom Widgets
 
 Web App builder Custom Widget List
-- Filter Widget
+- [Filter Widget](https://github.com/GISupportICRC/Web-App-Builder-Custom-Widgets#filter-widget-octocat)
 
 
 ## Filter Widget :octocat:
