@@ -1,0 +1,52 @@
+{
+	"regionsMultiselect": ["Africa", "Americas", "Asia", "Europe"],
+	"activitiesMultiselect": ["Detention", "RLF/Missing", "Forensics", "Health Care", "PPC", "Other Assistance"],
+	"regionsExtent": {
+		 "AmericasExtent":{
+			"xmax": 13677947.401,
+			"xmin": -29175708.136,
+			"ymax": 16444586.014,
+			"ymin": -10246001.27,
+			"spatialReference": {
+				"wkid": 102100
+			}
+		 },
+		 "AfricasExtent":{
+			"xmax": 13208318.29,
+			"xmin": -8218509.469,
+			"ymax": 7384657.925,
+			"ymin": -5960635.716,
+			"spatialReference": {
+				"wkid": 102100
+			}
+		 },
+		 "EurasiasExtent":{
+			"xmax": 7668482.634136533,
+			"xmin": -3044931.2503109216,
+			"ymax": 9839701.696244009,
+			"ymin": 3167054.8750630366,
+			"spatialReference": {
+				"wkid": 102100
+			}
+		 },
+		 "AsiasExtent":{
+			"xmax": 22043215.776,
+			"xmin": 616388.008,
+			"ymax": 11376505.29,
+			"ymin": -1968788.351,
+			"spatialReference": {
+				"wkid": 102100
+			}
+		 },
+		 "resetExtent":{
+			"xmax": 22936320.411926854,
+			"xmin": -19917335.125863258,
+			"ymax": 16487888.668373864,
+			"ymin": -10202698.616350204,
+			"spatialReference": {
+				"wkid": 102100
+			}
+		 }
+}
+		
+}

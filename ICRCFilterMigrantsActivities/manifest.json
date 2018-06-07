@@ -1,0 +1,16 @@
+﻿{
+  "name": "ICRCFilterMigrantsActivities",
+  "platform": "HTML",
+  "version": "2.6",
+  "wabVersion": "2.6",
+  "author": "ICRC, Adrián Pérez Beneito",
+  "description": "This widget filter the symbology by activities and regions -multiselection-",
+  "copyright": "ICRC",
+  "license": "ICRC",
+  "properties": {
+    "hasSettingPage": false,
+    "hasSettingUIFile": false,
+    "hasSettingLocale": false,
+    "hasSettingStyle": false
+  }
+}

@@ -1,0 +1,7 @@
+tr.spaceUnder > td {
+    padding-top: 0.6em; 
+}
+.claro .dijitButton .dijitButtonNode{
+    background: #9E1717 !important;
+    color: white !important;
+}

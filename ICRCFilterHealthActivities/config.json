@@ -1,0 +1,15 @@
+{
+    "panelWidth": 325,
+    "settingExtent": {
+                        "xmax"             : 18279039.91813997,
+                        "xmin"             : -13029566.867459899,
+                        "ymax"             : 6972858.599108713,
+                        "ymin"             : -8564037.518245222,
+                        "spatialReference" : {
+                                            "wkid": 102100
+                                            }
+                    },
+    "getVersionFieldName": "Version",
+    "getCountryFieldName": "NAME_ICRC",
+    "getMultiSelectFieldName": "Type"
+}

@@ -1,0 +1,16 @@
+{
+  "name": "ICRCFilterHealthActivities",
+  "platform": "HTML",
+  "version": "2.7",
+  "wabVersion": "2.7",
+  "author": "Adrián Pérez Beneito (ICRC)",
+  "description": "Filtering the data by country, type and version",
+  "copyright": "",
+  "license": "ICRC",
+  "properties": {
+    "hasSettingPage": false,
+    "hasSettingUIFile": false,
+    "hasSettingLocale": false,
+    "hasSettingStyle": false
+  }
+}
