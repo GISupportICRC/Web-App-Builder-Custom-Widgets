@@ -8,11 +8,6 @@ Web App builder Custom Widget List
 
 Filtering Feature Layer using [Dojo MultiSelect](https://dojotoolkit.org/reference-guide/1.10/dojox/form/CheckedMultiSelect.html)
 
-![.](https://icrc.maps.arcgis.com/sharing/rest/content/items/f4babf07ba40484c942a0ec3dd5a231d/data)
-
-
-**Version 1.0**, pending improvements. All suggestions for improvement will be welcome.
-
-**List of the latest enhancements and changes:**
+![.](https://icrc.maps.arcgis.com/sharing/rest/content/items/c5492ca6217041909d5a9023644f12e2/data)
 
 ***
