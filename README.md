@@ -2,8 +2,8 @@
 
 Web App builder Custom Widget List
 - [ICRCFilterHealthActivities Widget](https://github.com/GISupportICRC/Web-App-Builder-Custom-Widgets#filter-widget-octocat)
-- [ICRCFilterMigrantsActivities Widget]()
-- [IntroJS]()
+- [ICRCFilterMigrantsActivities Widget](https://github.com/GISupportICRC/Web-App-Builder-Custom-Widgets/blob/master/README.md#icrcfiltermigrantsactivities-widget-mag)
+- [IntroJS](https://github.com/GISupportICRC/Web-App-Builder-Custom-Widgets/blob/master/README.md#introjs-ft-wab-dizzy)
 
 
 ![.](https://icrc.maps.arcgis.com/sharing/rest/content/items/2cc6d61911724a3c835427436540bb32/data)
