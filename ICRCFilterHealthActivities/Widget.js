@@ -8,7 +8,9 @@ define(['dojo/_base/declare',
         'dojo/_base/lang',
         'dojo/dom-construct',
         'dojo/dom-style',
+        'dojo/on',
         'dojo/dom', 
+        'dojo/Deferred',
         'dijit/form/Select',
         'dijit/form/Button',
         'dojox/form/CheckedMultiSelect',
@@ -21,14 +23,14 @@ define(['dojo/_base/declare',
         'esri/symbols/PictureMarkerSymbol',
         'esri/Color', 
         'esri/renderers/SimpleRenderer',
-        'dojo/Deferred',
         'esri/request',
         'esri/graphic',
-        'dojo/on',
         'dojo/domReady!'],
-function(declare, BaseWidget, lang, domConstruct, domStyle, dom, Select, Button, CheckedMultiSelect,
+function(declare, BaseWidget, lang, domConstruct, domStyle, on, dom, Deferred,
+         Select, Button, 
+         CheckedMultiSelect,
          FeatureLayer, Query, QueryTask,  Extent, FeatureSet, SimpleMarkerSymbol, PictureMarkerSymbol, 
-         Color, SimpleRenderer, Deferred, esriRequest, Graphic, on) {
+         Color, SimpleRenderer, esriRequest, Graphic) {
  
   return declare([BaseWidget], {
 
@@ -79,27 +81,27 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, Select, Button,
 
     getVersion: function(){
       var query = new Query();
-            query.where = '1=1';
-            query.returnGeometry = true;
-            query.outFields = [this.config.getVersionFieldName];
-            new QueryTask(this.appConfig.activitiesUrl).execute(query, lang.hitch(this, function(results){
-              var map = results.features.map(function(record){
-                return record.attributes.Version;
-              });
-              var filter = map.filter(function(item, pos){
-                return map.indexOf(item) == pos; 
-              });
+          query.where = '1=1';
+          query.returnGeometry = true;
+          query.outFields = [this.config.getVersionFieldName];
+          new QueryTask(this.appConfig.activitiesUrl).execute(query, lang.hitch(this, function(results){
+            var map = results.features.map(function(record){
+              return record.attributes.Version;
+            });
+            var filter = map.filter(function(item, pos){
+              return map.indexOf(item) == pos; 
+            });
 
-              this.initVersionSelect(filter);
+            this.initVersionSelect(filter);
 
-              for(i in filter){
-                this.latestYear.push(filter[i].slice(-4));
-              }
-            })).then(lang.hitch(this, function(){
-              this.getFullLayer(this.latestYear);
-            })).then(lang.hitch(this, function(){
-              this.getMultiSelect();
-            })); 
+            for(i in filter){
+              this.latestYear.push(filter[i].slice(-4));
+            }
+          })).then(lang.hitch(this, function(){
+            this.getFullLayer(this.latestYear);
+          })).then(lang.hitch(this, function(){
+            this.getMultiSelect();
+          })); 
     },
 
     getFullLayer: function(){
@@ -115,7 +117,7 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, Select, Button,
       });
       layersRequest.then(
         lang.hitch(this, function(results){
-          console.log("Success");
+          console.log("Success :)");
           if(results.features.length === 0){
             var secondLayersRequest = esriRequest({
               url: this.appConfig.activitiesUrl + "/query?where=" + this.config.getVersionFieldName + "+%3D+%27" + 
@@ -126,14 +128,14 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, Select, Button,
             });
             secondLayersRequest.then(
               lang.hitch(this, function(results) {
-                console.log("Success:");
+                console.log("Success :)");
                 if(results.features.length != 0){
                   this.activitiesLayer.setDefinitionExpression(this.config.getVersionFieldName + " = 'Q3-Q4-" + max + "'");
                   this.map.addLayer(this.activitiesLayer);
                   this.latestVersion.innerHTML = 'Latest Version: Q3-Q4-' + max;
                 }
             }), function(error) {
-                console.log("Error");
+                console.log("Error :(");
             });
             secondLayersRequest.then(
               lang.hitch(this, function(){
@@ -145,7 +147,7 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, Select, Button,
             this.latestVersion.innerHTML = 'Latest Version: Q1-Q2-' + max;
           }
       }), function(error){
-          console.log("Error");
+          console.log("Error :(");
       });
       layersRequest.then(
         lang.hitch(this, function(){
@@ -168,18 +170,18 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, Select, Button,
 
     getMultiSelect: function(){
       var query = new Query();
-            query.where = '1=1';
-            query.returnGeometry = true;
-            query.outFields = [this.config.getMultiSelectFieldName];
-            new QueryTask(this.appConfig.activitiesUrl).execute(query, lang.hitch(this, function(results){
-              var map = results.features.map(function(record){
-                return record.attributes.XXXX;
-              });
-              var filter = map.filter(function(item, pos){
-                return map.indexOf(item) == pos; 
-              });
-              this.initMultiSelect(filter);
-            })) 
+          query.where = '1=1';
+          query.returnGeometry = true;
+          query.outFields = [this.config.getMultiSelectFieldName];
+          new QueryTask(this.appConfig.activitiesUrl).execute(query, lang.hitch(this, function(results){
+            var map = results.features.map(function(record){
+              return record.attributes.XXXX;
+            });
+            var filter = map.filter(function(item, pos){
+              return map.indexOf(item) == pos; 
+            });
+            this.initMultiSelect(filter);
+          })) 
     },
 
     initCountrySelect: function(data){
@@ -288,7 +290,7 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, Select, Button,
 
     performQuery: function(){
       var def = new Deferred()
-          def.resolve('Success!');
+          def.resolve(':)');
           def.then(lang.hitch(this, function(){
             this.activitiesLayer.hide();
             //Everytime the user clicks on the 'Execute' button the activities layer request = '1=1' (= Select * FROM...)
@@ -308,6 +310,7 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, Select, Button,
                         query.spatialRelationship = Query.SPATIAL_REL_ENVELOPEINTERSECTS;
                         query.returnGeometry = true;
                         query.outFields = ["*"];
+                          
                     this.activitiesLayer.queryFeatures(query, lang.hitch(this, function(efeatureSet){
                       var oidsString = '';
                       for(i in efeatureSet.features){
