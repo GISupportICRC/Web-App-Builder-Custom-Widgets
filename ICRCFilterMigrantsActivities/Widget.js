@@ -26,10 +26,9 @@ define(['dojo/_base/declare',
         'esri/SpatialReference',
         'esri/symbols/SimpleLineSymbol', 
         'dojo/domReady!'],
-        function(declare, 
-        BaseWidget, lang, domConstruct, domStyle, dom, on,         
-        Button, MultiSelect, RadioButton, ProgressBar, Dialog, 
-        Query, QueryTask, SimpleMarkerSymbol, Point, Color, Graphic, FeatureLayer, Extent, SpatialReference, SimpleLineSymbol){
+        function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on,         
+                 Button, MultiSelect, RadioButton, ProgressBar, Dialog, 
+                 Query, QueryTask, SimpleMarkerSymbol, Point, Color, Graphic, FeatureLayer, Extent, SpatialReference, SimpleLineSymbol){
 
   return declare([BaseWidget], {
    
