@@ -9,7 +9,7 @@
                                             "wkid": 102100
                                             }
                     },
-    "getVersionFieldName": "Version",
-    "getCountryFieldName": "NAME_ICRC",
-    "getMultiSelectFieldName": "Type"
+    "getVersionFieldName": "XXXX",
+    "getCountryFieldName": "XXXX",
+    "getMultiSelectFieldName": "XXXX"
 }
