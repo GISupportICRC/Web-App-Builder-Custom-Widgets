@@ -60,7 +60,7 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
       this.initButtons();
       this.setExtent();
       this.removeClusterLayer();
-      alert('eseee56hgzr87333')
+
       //Setting widget's panel width dynamically
       var panel = this.getPanel();
           panel.position.width = this.config.panelWidth;
