@@ -33,17 +33,19 @@ define(['dojo/_base/declare',
 
         'jimu/dijit/LoadingShelter',
         'jimu/dijit/Message',
+        'jimu/LayerInfos/LayerInfos',
         'dojo/domReady!'],
 function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
          FeatureLayer, Query, QueryTask,  Extent, FeatureSet, SimpleMarkerSymbol, PictureMarkerSymbol, Color, SimpleRenderer,  esriRequest, Graphic,  
          CheckedMultiSelect,
          Select, Button,
          ClusterFeatureLayer,
-         LoadingShelter, Message) {
+         LoadingShelter, Message, LayerInfos) {
  
   return declare([BaseWidget], {
 
     activitiesLayer: null,
+    activitiesWebMapLayer: null,
     activitiesLayerFiltered: null,
     country: null,
     type: null,
@@ -56,11 +58,13 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
 
     startup: function() {
       this.inherited(arguments);
+      this.getWebMapLayer();
       this.getCountries();
       this.getVersion();
       this.initButtons();
       this.setExtent();
       this.removeClusterLayer();
+      
 
       //Setting widget's panel width dynamically
       var panel = this.getPanel();
@@ -75,22 +79,21 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
       this.shelter.startup();
       this.shelter.hide();
 
-      /*for(var i = 0; i < this.map.graphicsLayerIds.length; i++) {
-        var layerObject = this.map.getLayer(this.map.graphicsLayerIds[i]);
-          if(layerObject.url = this.appConfig.activitiesUrl){
-            layerObject.hide()
-          } 
-      }*/
-
-      this.activitiesLayer = new FeatureLayer(this.appConfig.activitiesUrl, {
-        mode: FeatureLayer.MODE_ONDEMAND,
-        outFields: ["*"],
-        name: "ICRC Health Activities"
-      }); 
-
       this.thatWorldLayer = new FeatureLayer(this.appConfig.worldUrl, {
         visible: false
       });
+    },
+
+    getWebMapLayer: function(){
+      LayerInfos.getInstance(this.map, this.map.itemInfo)
+        .then(lang.hitch(this, function(layerInfosObj) {
+          var info = layerInfosObj._finalLayerInfos;
+          for(i in info){
+            if(info[i].layerObject.url == this.appConfig.activitiesUrl){
+              this.activitiesLayer = layerInfosObj.getLayerInfoById(info[i].layerObject.id)
+            }
+          }
+        }))
     },
 
     // Create a feature layer to get feature service
@@ -127,11 +130,11 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
         if(this.map.getZoom() >= 8){
           if(this.clusterLayer){
             this.map.removeLayer(this.clusterLayer);
-            this.activitiesLayer.show()
+            this.activitiesLayer.layerObject.show()
           }
         }else if(this.map.getZoom() < 8){
             this.map.addLayer(this.clusterLayer);
-            this.activitiesLayer.hide()
+            this.activitiesLayer.layerObject.hide()
         }
       })));
     },
@@ -201,7 +204,7 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
               lang.hitch(this, function(results) {
                 console.log("Success:");
                 if(results.features.length != 0){
-                  this.activitiesLayer.setDefinitionExpression(this.config.getVersionFieldName + " = 'Q3-Q4-" + max + "'");
+                  this.activitiesLayer.layerObject.setDefinitionExpression(this.config.getVersionFieldName + " = 'Q3-Q4-" + max + "'");
                   this.map.addLayer(this.activitiesLayer);
                   this.latestVersion.innerHTML = 'Latest Version: Q3-Q4-' + max;
                   this.addClusterLayer('initial', 'Q3-Q4-' + max);
@@ -214,7 +217,7 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
                 this.setWorldExtent();
               }))
           } else{ 
-            this.activitiesLayer.setDefinitionExpression("Version = 'Q1-Q2-" + max + "'");
+            this.activitiesLayer.layerObject.setDefinitionExpression("Version = 'Q1-Q2-" + max + "'");
             this.map.addLayer(this.activitiesLayer);
             this.latestVersion.innerHTML = 'Latest Version: Q1-Q2-' + max;
             this.addClusterLayer('initial', 'Q1-Q2-' + max);
@@ -375,9 +378,9 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
       var def = new Deferred()
           def.resolve('Success!');
           def.then(lang.hitch(this, function(){
-            this.activitiesLayer.hide();
+            this.activitiesLayer.layerObject.hide();
             //Everytime the user clicks on the 'Execute' button the activities layer request = '1=1' (= Select * FROM...)
-            this.activitiesLayer.setDefinitionExpression("1=1");
+            this.activitiesLayer.layerObject.setDefinitionExpression("1=1");
           })).then(lang.hitch(this, function(){
             var query = new Query();
                 query.where = "" + this.config.getCountryFieldName + "  = '" + this.country + "'";
@@ -393,7 +396,7 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
                         query.spatialRelationship = Query.SPATIAL_REL_ENVELOPEINTERSECTS;
                         query.returnGeometry = true;
                         query.outFields = ["*"];
-                    this.activitiesLayer.queryFeatures(query, lang.hitch(this, function(efeatureSet){
+                    this.activitiesLayer.layerObject.queryFeatures(query, lang.hitch(this, function(efeatureSet){
                       if(efeatureSet.features.length > 0){
                         var oidsString = '';
                         for(i in efeatureSet.features){
@@ -411,7 +414,7 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
                                   this.config.getMultiSelectFieldName + ' in (' + getType.slice(0, -1) + ') AND ' +
                                   this.config.getVersionFieldName + ' = ' + "'" + this._version + "'";
 
-                        this.activitiesLayer.setDefinitionExpression(sql); 
+                        this.activitiesLayer.layerObject.setDefinitionExpression(sql); 
                         this.map.removeLayer(this.clusterLayer);  
                         this.addClusterLayer('filtered', sql) 
                       }else{
