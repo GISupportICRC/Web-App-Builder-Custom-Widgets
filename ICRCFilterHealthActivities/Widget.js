@@ -32,13 +32,14 @@ define(['dojo/_base/declare',
         './clusterfeaturelayer',
 
         'jimu/dijit/LoadingShelter',
+        'jimu/dijit/Message',
         'dojo/domReady!'],
 function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
          FeatureLayer, Query, QueryTask,  Extent, FeatureSet, SimpleMarkerSymbol, PictureMarkerSymbol, Color, SimpleRenderer,  esriRequest, Graphic,  
          CheckedMultiSelect,
          Select, Button,
          ClusterFeatureLayer,
-         LoadingShelter) {
+         LoadingShelter, Message) {
  
   return declare([BaseWidget], {
 
@@ -393,25 +394,32 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
                         query.returnGeometry = true;
                         query.outFields = ["*"];
                     this.activitiesLayer.queryFeatures(query, lang.hitch(this, function(efeatureSet){
-                      var oidsString = '';
-                      for(i in efeatureSet.features){
-                        oidsString += "'" + efeatureSet.features[i].attributes.OBJECTID + "',";
-                      }
+                      if(efeatureSet.features.length > 0){
+                        var oidsString = '';
+                        for(i in efeatureSet.features){
+                          oidsString += "'" + efeatureSet.features[i].attributes.OBJECTID + "',";
+                        }
 
-                      var getType = '';
-                      var typeMultiSelectValue = dijit.byId("_typesMultiS").get("value");
-                      
-                      for(i in typeMultiSelectValue){
-                        getType += "'" + typeMultiSelectValue[i] + "',";
-                      } 
-                      //We obtain the OIDs that corresponding to the intersect result; executing (below) the full query (country, activities and version)
-                      var sql = 'OBJECTID' + ' in (' + oidsString.slice(0, -1) + ') AND ' + 
-                                this.config.getMultiSelectFieldName + ' in (' + getType.slice(0, -1) + ') AND ' +
-                                this.config.getVersionFieldName + ' = ' + "'" + this._version + "'";
+                        var getType = '';
+                        var typeMultiSelectValue = dijit.byId("_typesMultiS").get("value");
+                        
+                        for(i in typeMultiSelectValue){
+                          getType += "'" + typeMultiSelectValue[i] + "',";
+                        } 
+                        //We obtain the OIDs that corresponding to the intersect result; executing (below) the full query (country, activities and version)
+                        var sql = 'OBJECTID' + ' in (' + oidsString.slice(0, -1) + ') AND ' + 
+                                  this.config.getMultiSelectFieldName + ' in (' + getType.slice(0, -1) + ') AND ' +
+                                  this.config.getVersionFieldName + ' = ' + "'" + this._version + "'";
 
-                      this.activitiesLayer.setDefinitionExpression(sql); 
-                      this.map.removeLayer(this.clusterLayer);  
-                      this.addClusterLayer('filtered', sql)                                  
+                        this.activitiesLayer.setDefinitionExpression(sql); 
+                        this.map.removeLayer(this.clusterLayer);  
+                        this.addClusterLayer('filtered', sql) 
+                      }else{
+                        new Message({
+                          message: 'There are no data with this query'
+                        });
+                        this.shelter.hide();
+                      }                                     
                     }))
                   }
                 }))
