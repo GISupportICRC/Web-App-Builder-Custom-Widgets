@@ -3,7 +3,8 @@
 // WEB APP BUILDER VERSION 2.7
 // ADRIÁN PÉREZ BENEITO, GIS TEAM
 ///////////////////////////////////////////////////////////////////////////
-define(['dojo/_base/declare', 
+define([//Dojo
+        'dojo/_base/declare', 
         'jimu/BaseWidget',
         'dojo/_base/lang',
         'dojo/dom-construct',
@@ -11,7 +12,7 @@ define(['dojo/_base/declare',
         'dojo/dom', 
         'dojo/on',
         'dojo/Deferred',
-        
+        //Esri
         'esri/layers/FeatureLayer',
         'esri/tasks/query', 
         'esri/tasks/QueryTask',
@@ -23,17 +24,18 @@ define(['dojo/_base/declare',
         'esri/renderers/SimpleRenderer',
         'esri/request',
         'esri/graphic',
-        
+        //Dojox
         'dojox/form/CheckedMultiSelect',
-
+        //Dijit
         'dijit/form/Select',
         'dijit/form/Button',
-
+        //Custom classes
         './clusterfeaturelayer',
-
+        //Jimu
         'jimu/dijit/LoadingShelter',
         'jimu/dijit/Message',
         'jimu/LayerInfos/LayerInfos',
+        //domReady!
         'dojo/domReady!'],
 function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
          FeatureLayer, Query, QueryTask,  Extent, FeatureSet, SimpleMarkerSymbol, PictureMarkerSymbol, Color, SimpleRenderer,  esriRequest, Graphic,  
@@ -45,43 +47,48 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
   return declare([BaseWidget], {
 
     activitiesLayer: null,
-    activitiesWebMapLayer: null,
-    activitiesLayerFiltered: null,
     country: null,
     type: null,
     _version: null,
     latestYear: [],
-    countryExtent: [],
     thatWorldLayer: this,
     clusterLayer: null,
     shelter: null,
 
+    postCreate: function() {
+      this.inherited(arguments);
+      this.thatWorldLayer = new FeatureLayer(this.appConfig.worldUrl, {
+        visible: false
+      });
+    },
+
     startup: function() {
       this.inherited(arguments);
+      this.managePanel();
+      this.initLoadingShelter();
       this.getWebMapLayer();
       this.getCountries();
       this.getVersion();
       this.initButtons();
       this.setExtent();
       this.removeClusterLayer();
-      
+    },
 
+    managePanel: function(){
       //Setting widget's panel width dynamically
       var panel = this.getPanel();
           panel.position.width = this.config.panelWidth;
           panel.setPosition(panel.position);
           panel.panelManager.normalizePanel(panel);
+    },
 
+    initLoadingShelter: function(){
       this.shelter = new LoadingShelter({
         hidden: false
       });
       this.shelter.placeAt(this.loadingNode);
       this.shelter.startup();
       this.shelter.hide();
-
-      this.thatWorldLayer = new FeatureLayer(this.appConfig.worldUrl, {
-        visible: false
-      });
     },
 
     getWebMapLayer: function(){
@@ -100,7 +107,7 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
     addClusterLayer: function(type, sql){
       var query = '';
       if(type === 'initial'){
-        query += "Version = '" + sql + "'"
+        query += "" + this.config.getVersionFieldName + " = '" + sql + "'"
       }else if(type === 'filtered'){
         query += sql
       }else if(type === 'All'){
@@ -126,15 +133,25 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
     },
 
     removeClusterLayer: function(){
-      this.own(on(this.map, 'extent-change', lang.hitch(this, function(){
-        if(this.map.getZoom() >= 8){
+      this.own(on(this.map, 'zoom-end', lang.hitch(this, function(evt){
+        if(evt.level >= 6){
           if(this.clusterLayer){
             this.map.removeLayer(this.clusterLayer);
             this.activitiesLayer.layerObject.show()
           }
-        }else if(this.map.getZoom() < 8){
+        }else if(evt.level < 6){
             this.map.addLayer(this.clusterLayer);
             this.activitiesLayer.layerObject.hide()
+        }
+      })));
+
+      this.own(on(this.map, 'extent-change', lang.hitch(this, function(evt){
+        if(this.map.getZoom() >= 6){
+          this.map.removeLayer(this.clusterLayer);
+          this.activitiesLayer.layerObject.show()
+        }else if(evt.level < 6){
+          this.map.addLayer(this.clusterLayer);
+          this.activitiesLayer.layerObject.hide()
         }
       })));
     },
@@ -181,10 +198,13 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
     getFullLayer: function(){
       this.shelter.show();
       var max = Math.max.apply(null, this.latestYear);  
+      var queryString = "%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=" + 
+                        this.config.getVersionFieldName + 
+                        "&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=&f=pjson";
       //Looking for the latest year and currents four-month periods, 'Q1-Q2' or 'Q3-Q4'; if 'Q1-Q2' features results = 0, get 'Q3-Q4 period'
       var layersRequest = esriRequest({
         url: this.appConfig.activitiesUrl + "/query?where=" + this.config.getVersionFieldName + "+%3D+%27" + 
-             "Q1-Q2-" + max + "%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=Version&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=&f=pjson",
+             "Q1-Q2-" + max + queryString,
         content: { f: "json" },
         handleAs: "json",
         callbackParamName: "callback"
@@ -195,7 +215,7 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
           if(results.features.length === 0){
             var secondLayersRequest = esriRequest({
               url: this.appConfig.activitiesUrl + "/query?where=" + this.config.getVersionFieldName + "+%3D+%27" + 
-                   "Q3-Q4-" + max + "%27&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=Version&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=&f=pjson",
+                   "Q3-Q4-" + max + queryString,
               content: { f: "json" },
               handleAs: "json",
               callbackParamName: "callback"
@@ -217,7 +237,7 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
                 this.setWorldExtent();
               }))
           } else{ 
-            this.activitiesLayer.layerObject.setDefinitionExpression("Version = 'Q1-Q2-" + max + "'");
+            this.activitiesLayer.layerObject.setDefinitionExpression(this.config.getVersionFieldName + " = 'Q1-Q2-" + max + "'");
             this.map.addLayer(this.activitiesLayer);
             this.latestVersion.innerHTML = 'Latest Version: Q1-Q2-' + max;
             this.addClusterLayer('initial', 'Q1-Q2-' + max);
@@ -261,6 +281,7 @@ function(declare, BaseWidget, lang, domConstruct, domStyle, dom, on, Deferred,
             var filter = map.filter(function(item, pos){
               return map.indexOf(item) == pos; 
             });
+
             this.initMultiSelect(filter);
           })) 
     },
