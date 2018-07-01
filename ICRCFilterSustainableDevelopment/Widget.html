@@ -1,0 +1,64 @@
+<div>
+  <table>
+    <tr>
+      <td class="spaceUnder">
+        <span> ${nls.themeProject} </span><br><br>
+        <div data-dojo-attach-point="themeProjectNode"></div><hr><br>
+      </td>
+      <td class="spaceUnder">
+        <label class="switch">
+          <input id="toggle-project" type="checkbox">
+          <span class="slider round"></span>
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td class="spaceUnder">  
+        <span> ${nls.region} </span><br><br>
+        <div data-dojo-attach-point="regionNode"></div><hr><br>
+      </td>
+      <td class="spaceUnder">
+        <label class="switch">
+          <input id="toggle-region" type="checkbox">
+          <span class="slider round"></span>
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td class="spaceUnder">
+        <span> ${nls.countries} </span><br><br>
+        <div data-dojo-attach-point="countryNode"></div><hr><br>
+      </td>
+      <td class="spaceUnder">
+        <label class="switch">
+          <input id="toggle-countries" type="checkbox">
+          <span class="slider round"></span>
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td class="spaceUnder">
+         <span> ${nls.projectStart} </span><br><br>
+         <div data-dojo-attach-point="startNode"></div><br><br>
+         <span> ${nls.projectEnd} </span><br><br>
+         <div data-dojo-attach-point="endNode"></div><hr><br>
+      </td>
+      <td class="spaceUnder">
+         <label class="switch">
+          <input id="toggle-date" type="checkbox">
+          <span class="slider round"></span>
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td class="spaceUnder">
+        <div class="jimu-btn" data-dojo-attach-event="onclick:resetFilter"> Reset Filter </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="spaceUnder">
+        <div data-dojo-attach-point="loadingNode"></div>
+      </td>
+    </tr>
+  </table>
+</div>
