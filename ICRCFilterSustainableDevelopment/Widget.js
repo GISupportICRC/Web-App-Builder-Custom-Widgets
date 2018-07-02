@@ -136,9 +136,9 @@ function(BaseWidget,
       var def = new Deferred()
           def.resolve(data);
           def.then(lang.hitch(this, function(results){
-            return data.sort()
+            return results.sort()
                 .filter(lang.hitch(this, function(x, i){
-                  return data.indexOf(x) === i; 
+                  return results.indexOf(x) === i; 
                 }))
                 .map(lang.hitch(this, function(record){
                   if(type === this.config.countryField){
@@ -245,6 +245,15 @@ function(BaseWidget,
       })));
     },
 
+    cleanSqlDefinitionArray: function(){
+      $('input[type=checkbox]').prop('checked', false);
+
+      this.sqlDefinition[0].length = 0;
+      this.sqlDefinition[1].length = 0;
+      this.sqlDefinition[2].length = 0;
+      this.sqlDefinition[3].length = 0;  
+    },
+
     enableToogleEvents: function(){
       var self = this;
 
@@ -286,10 +295,11 @@ function(BaseWidget,
 
           if(oids.length == 0){
             new Message({
-              message: 'There are no data with this query'
+              message: "There are no data with this query"
             });
             self.layer.setDefinitionExpression()
-            self.shelter.hide(); 
+            self.shelter.hide()
+            self.cleanSqlDefinitionArray()
           }else{
             self.performQuery('addYear', oids)
           }  
@@ -342,9 +352,10 @@ function(BaseWidget,
             this.layer.setDefinitionExpression((this.sqlDefinition[0] + this.sqlDefinition[1] + this.sqlDefinition[2] + this.sqlDefinition[3]).slice(0, -5));
           }else{
             new Message({
-              message: 'There are no data with this query'
+              message: "There are no data with this query"
             });
             this.layer.setDefinitionExpression()
+            this.cleanSqlDefinitionArray()
           }
         })).always(lang.hitch(this, function(){
           this.shelter.hide();
@@ -357,6 +368,7 @@ function(BaseWidget,
 
     resetFilter: function(){
       this.layer.setDefinitionExpression()
+      this.cleanSqlDefinitionArray()
     }
   });
 });
