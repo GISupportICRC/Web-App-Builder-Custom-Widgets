@@ -3,7 +3,7 @@
 Web App builder Custom Widget List
 - [ICRCFilterHealthActivities Widget](https://github.com/GISupportICRC/Web-App-Builder-Custom-Widgets#filter-widget-octocat)
 - [ICRCFilterMigrantsActivities Widget](https://github.com/GISupportICRC/Web-App-Builder-Custom-Widgets/blob/master/README.md#icrcfiltermigrantsactivities-widget-mag)
-- [ICRCFilterSustainableDevelopment Widget](https://github.com/GISupportICRC/Web-App-Builder-Custom-Widgets/blob/master/README.md#icrcfiltermigrantsactivities-widget-mag)
+- [ICRCFilterSustainableDevelopment Widget](https://github.com/GISupportICRC/Web-App-Builder-Custom-Widgets/blob/master/README.md#icrcsustainabledevelopment-widget-seedling)
 - [IntroJS](https://github.com/GISupportICRC/Web-App-Builder-Custom-Widgets/blob/master/README.md#introjs-ft-wab-dizzy) (It is not a widget, it is an extended functionality of WAB) 
 
 
@@ -35,7 +35,7 @@ Creating circle graphics and filtering them using [Dojo MultiSelect](https://doj
 
 Filtering WebMap Layer using [Dojo Select](https://dojotoolkit.org/reference-guide/1.10/dijit/form/Select.html)
 
-![.](https://icrc.maps.arcgis.com/sharing/rest/content/items/5aada874fc424260ba0450e7d2aaa2e3/data)
+![.](https://icrc.maps.arcgis.com/sharing/rest/content/items/26f999f7241b43d3a8a59f23a79cf6dc/data)
 
 ***
 
