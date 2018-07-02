@@ -3,6 +3,7 @@
 Web App builder Custom Widget List
 - [ICRCFilterHealthActivities Widget](https://github.com/GISupportICRC/Web-App-Builder-Custom-Widgets#filter-widget-octocat)
 - [ICRCFilterMigrantsActivities Widget](https://github.com/GISupportICRC/Web-App-Builder-Custom-Widgets/blob/master/README.md#icrcfiltermigrantsactivities-widget-mag)
+- [ICRCFilterSustainableDevelopment Widget](https://github.com/GISupportICRC/Web-App-Builder-Custom-Widgets/blob/master/README.md#icrcfiltermigrantsactivities-widget-mag)
 - [IntroJS](https://github.com/GISupportICRC/Web-App-Builder-Custom-Widgets/blob/master/README.md#introjs-ft-wab-dizzy) (It is not a widget, it is an extended functionality of WAB) 
 
 
@@ -16,7 +17,7 @@ Web App builder Custom Widget List
 
 ## ICRCFilterHealthActivities Widget :octocat:
 
-Filtering Feature Layer using [Dojo CheckedMultiSelect](https://dojotoolkit.org/reference-guide/1.10/dojox/form/CheckedMultiSelect.html)
+Filtering WebMap Layer using [Dojo CheckedMultiSelect](https://dojotoolkit.org/reference-guide/1.10/dojox/form/CheckedMultiSelect.html)
 
 ![.](https://icrc.maps.arcgis.com/sharing/rest/content/items/c5492ca6217041909d5a9023644f12e2/data)
 
@@ -27,6 +28,14 @@ Filtering Feature Layer using [Dojo CheckedMultiSelect](https://dojotoolkit.org/
 Creating circle graphics and filtering them using [Dojo MultiSelect](https://dojotoolkit.org/reference-guide/1.10/dijit/form/MultiSelect.html)
 
 ![.](https://icrc.maps.arcgis.com/sharing/rest/content/items/0420817bc78a4f4f817533fbba189de4/data)
+
+***
+
+## ICRCSustainableDevelopment Widget :seedling:
+
+Filtering WebMap Layer using [Dojo Select](https://dojotoolkit.org/reference-guide/1.10/dijit/form/Select.html)
+
+![.](https://icrc.maps.arcgis.com/sharing/rest/content/items/5aada874fc424260ba0450e7d2aaa2e3/data)
 
 ***
 
@@ -100,5 +109,11 @@ IntroJS: function(){
 
 
 ***
+
+
+
+
+
+https://icrc.maps.arcgis.com/sharing/rest/content/items/5aada874fc424260ba0450e7d2aaa2e3/data
 
 
