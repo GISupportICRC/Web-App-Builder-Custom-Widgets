@@ -33,7 +33,7 @@ Creating circle graphics and filtering them using [Dojo MultiSelect](https://doj
 
 ## ICRCSustainableDevelopment Widget :seedling:
 
-Filtering WebMap Layer using [Dojo Select](https://dojotoolkit.org/reference-guide/1.10/dijit/form/Select.html)
+Filtering WebMap Layer using [Dojo Select](https://dojotoolkit.org/reference-guide/1.10/dijit/form/Select.html) and [Bootstrap Toggle](http://www.bootstraptoggle.com/)
 
 ![.](https://icrc.maps.arcgis.com/sharing/rest/content/items/26f999f7241b43d3a8a59f23a79cf6dc/data)
 
