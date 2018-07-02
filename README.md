@@ -109,11 +109,3 @@ IntroJS: function(){
 
 
 ***
-
-
-
-
-
-https://icrc.maps.arcgis.com/sharing/rest/content/items/5aada874fc424260ba0450e7d2aaa2e3/data
-
-
